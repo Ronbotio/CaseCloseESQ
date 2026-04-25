@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immigration Law: Case Approved</title>
+    <style>
+        :root {
+            --passport-blue: #003366;
+            --stamp-red: #b22222;
+            --gold: #d4af37;
+            --paper: #fdfaf0;
+        }
+
+        body, html { margin: 0; padding: 0; overflow: hidden; background: var(--paper); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        #desk {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #fdfaf0 0%, #dcd3c1 100%);
+            z-index: 20;
+            transition: opacity 1s, transform 1s ease-in;
+        }
+
+        .visa-file {
+            background: white;
+            background-image: linear-gradient(90deg, rgba(200,200,200,.05) 50%, transparent 0);
+            background-size: 2px 2px;
+            padding: 40px;
+            border: 1px solid #ccc;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15), 0 0 0 10px rgba(255,255,255,0.5);
+            text-align: center;
+            max-width: 500px;
+            position: relative;
+            z-index: 21;
+        }
+
+        /* IMPROVEMENT: Official Gold Seal */
+        .official-seal {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border: 2px double var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 0.6rem;
+            font-weight: bold;
+            opacity: 0.4;
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(0,0); }
+            25% { transform: translate(6px, 6px); }
+            50% { transform: translate(-6px, -6px); }
+            75% { transform: translate(6px, -6px); }
+            100% { transform: translate(0,0); }
+        }
+        .shake-effect { animation: shake 0.2s ease-in-out; }
+
+        h1 { font-family: serif; color: var(--passport-blue); margin: 5px 0; letter-spacing: 1px; }
+        
+        .bible-principle {
+            font-style: italic;
+            font-size: 0.85rem;
+            color: #444;
+            margin: 15px 0;
+            line-height: 1.5;
+            border-left: 3px solid var(--gold);
+            padding: 10px 15px;
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .bar-encouragement {
+            background: var(--passport-blue);
+            color: white;
+            font-size: 0.75rem;
+            padding: 8px;
+            border-radius: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .stamp-area {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            border: 2px dashed #bbb;
+            position: relative;
+        }
+
+        .approved-stamp {
+            border: 6px solid var(--stamp-red);
+            color: var(--stamp-red);
+            padding: 10px 25px;
+            font-weight: 900;
+            font-size: 2.8rem;
+            transform: rotate(-25deg) scale(6);
+            opacity: 0;
+            text-transform: uppercase;
+            pointer-events: none;
+            mask-image: radial-gradient(circle, black 50%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .stamp-visible {
+            opacity: 0.9;
+            transform: rotate(-15deg) scale(1);
+            transition: all 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        button {
+            padding: 18px 30px;
+            cursor: pointer;
+            border: none;
+            background: var(--passport-blue);
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 4px;
+            box-shadow: 0 5px 0 #001a33;
+            position: relative;
+            z-index: 30;
+            transition: 0.2s;
+        }
+
+        button:hover { background: #004080; transform: translateY(-1px); }
+        button:active { transform: translateY(3px); box-shadow: none; }
+
+        #garden { display: block; background: linear-gradient(180deg, #1e3c72 0%, #2a5298 40%, #d4af37 100%); }
+
+        .confetti-paper {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            width: 20px;
+            height: 25px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .legal-floatie {
+            position: absolute;
+            color: rgba(255,255,255,0.8);
+            font-family: monospace;
+            font-weight: bold;
+            pointer-events: none;
+            white-space: nowrap;
+            letter-spacing: 1px;
+        }
+
+        /* IMPROVEMENT: Gold Leaf Shimmer Effect */
+        #congrats-banner {
+            position: absolute;
+            top: 12%;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: serif;
+            font-size: 4rem;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            z-index: 10;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
+        }
+    </style>
+</head>
+<body>
+
+<div id="congrats-banner">Congratulations Graduate!</div>
+
+<div id="desk">
+    <div class="visa-file" id="main-file">
+        <div class="official-seal">JURIS<br>DOCTOR</div>
+        <div class="bar-encouragement">Next Step: Bar Admission Pending</div>
+        <p style="font-size: 0.7rem; margin: 0; color: #777; letter-spacing: 2px; font-weight: bold;">FORM I-GRAD | FINAL ADJUDICATION</p>
+        <hr style="opacity: 0.3;">
+        <h1>Case Status: Approved</h1>
+        <p>Petitioner: <strong>[NAME], ESQ.</strong></p>
+        
+        <div class="bible-principle">
+            "The foreigner residing among you must be treated as your native-born. Love them as yourself, for you were foreigners in Egypt." <br>
+            <strong>— Leviticus 19:34</strong>
+        </div>
+
+        <p style="font-size: 0.95rem; line-height: 1.4;">Your advocacy begins today. Carry this same strength into your Bar prep; the same wisdom that brought you here will see you through to the finish line.</p>
+        
+        <div class="stamp-area">
+            <div id="stamp" class="approved-stamp">APPROVED</div>
+        </div>
+
+        <button id="stamp-btn" onclick="applyStamp()">STAMP & ADMIT</button>
+        <p style="font-size: 0.7rem; margin-top: 18px; font-style: italic; opacity: 0.7;">Case Closed. The Bar Exam Awaits—You Are Ready.</p>
+    </div>
+</div>
+
+<canvas id="garden"></canvas>
+
+<script>
+    let mouseX = 0;
+    window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) - 0.5;
+    });
+
+    function applyStamp() {
+        const stamp = document.getElementById('stamp');
+        const file = document.getElementById('main-file');
+        const desk = document.getElementById('desk');
+        const btn = document.getElementById('stamp-btn');
+        const banner = document.getElementById('congrats-banner');
+
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+
+        stamp.classList.add('stamp-visible');
+        file.classList.add('shake-effect');
+
+        setTimeout(() => {
+            desk.style.transform = 'translateY(-110%)';
+            desk.style.opacity = '0';
+            banner.style.opacity = '1';
+            
+            setTimeout(() => {
+                desk.style.display = 'none';
+                startBloom();
+                spawnFloaties();
+            }, 1000);
+        }, 1300);
+    }
+
+    const canvas = document.getElementById('garden');
+    const ctx = canvas.getContext('2d');
+    let flowers = [];
+    let width, height;
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class GlobalFlower {
+        constructor(x, y, color) {
+            this.x = x;
+            this.y = height + 50;
+            this.targetY = y;
+            this.color = color;
+            this.size = 0;
+            this.wobble = Math.random() * Math.PI * 2;
+            this.petals = Math.floor(Math.random() * 5 + 6);
+            this.parallaxFactor = Math.random() * 30;
+            // IMPROVEMENT: Blur factor based on distance for Depth of Field
+            this.blur = Math.random() > 0.7 ? 2 : 0;
+        }
+
+        draw() {
+            if (this.y > this.targetY) this.y -= 4;
+            else if (this.size < 35) this.size += 0.8;
+
+            this.wobble += 0.03;
+            const xOff = Math.sin(this.wobble) * 3 + (mouseX * this.parallaxFactor);
+
+            ctx.filter = `blur(${this.blur}px)`; // Dynamic Blur
+            ctx.beginPath();
+            ctx.strokeStyle = "#4a7c44";
+            ctx.lineWidth = 3;
+            ctx.moveTo(this.x, height);
+            ctx.quadraticCurveTo(this.x + xOff * 10, (height + this.y)/2, this.x + xOff, this.y);
+            ctx.stroke();
+
+            for (let i = 0; i < this.petals; i++) {
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                let angle = (i / this.petals) * Math.PI * 2 + (this.wobble * 0.1);
+                let px = (this.x + xOff) + Math.cos(angle) * this.size;
+                let py = this.y + Math.sin(angle) * this.size;
+                ctx.arc(px, py, this.size / 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.beginPath();
+            ctx.fillStyle = "#FFD700";
+            ctx.arc(this.x + xOff, this.y, this.size / 3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.filter = 'none';
+        }
+    }
+
+    const worldColors = ["#ff595e", "#ffca3a", "#8ac926", "#1982c4", "#6a4c93", "#e5c100"];
+    const floaties = ["VISA ISSUED", "FUTURE ESQUIRE", "BAR BOUND", "CASE CLOSED", "YOU GOT THIS", "GLOBAL BLOOM", "LOVE YOUR NEIGHBOR"];
+
+    function spawnFloaties() {
+        setInterval(() => {
+            const f = document.createElement('div');
+            f.className = 'legal-floatie';
+            f.innerText = floaties[Math.floor(Math.random() * floaties.length)];
+            f.style.left = Math.random() * 80 + 10 + 'vw';
+            f.style.bottom = '0px';
+            document.body.appendChild(f);
+            
+            f.animate([
+                { bottom: '0px', opacity: 0 },
+                { bottom: '50%', opacity: 1, offset: 0.5 },
+                { bottom: '100%', opacity: 0 }
+            ], { duration: 8000, easing: 'ease-out' }).onfinish = () => f.remove();
+        }, 1400);
+    }
+
+    function startBloom() {
+        for(let i=0; i<50; i++) {
+            const paper = document.createElement('div');
+            paper.className = 'confetti-paper';
+            paper.style.left = Math.random() * 100 + 'vw';
+            paper.style.top = '-50px';
+            document.body.appendChild(paper);
+            paper.animate([
+                { transform: 'translateY(0) rotate(0)', opacity: 1 },
+                { transform: `translateY(${height + 100}px) rotate(${Math.random() * 1000}deg)`, opacity: 0 }
+            ], { duration: 4000 + Math.random() * 3000 }).onfinish = () => paper.remove();
+        }
+
+        for (let i = 0; i < 48; i++) {
+            setTimeout(() => {
+                flowers.push(new GlobalFlower(
+                    Math.random() * width, 
+                    height * 0.25 + Math.random() * (height * 0.6),
+                    worldColors[Math.floor(Math.random() * worldColors.length)]
+                ));
+            }, i * 140);
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+        flowers.forEach(f => f.draw());
+        requestAnimationFrame(animate);
+    }
+    animate();
+</script>
+
+</body>
+</html>
