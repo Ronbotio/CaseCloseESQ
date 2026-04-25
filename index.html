@@ -34,6 +34,7 @@
             border: 1px solid #ccc;
             box-shadow: 0 20px 50px rgba(0,0,0,0.15), 0 0 0 10px rgba(255,255,255,0.5);
             text-align: center;
+            width: 90%; /* Mobile Friendly Fix: 90% width */
             max-width: 500px;
             position: relative;
             z-index: 21;
@@ -135,6 +136,7 @@
             position: relative;
             z-index: 30;
             transition: 0.2s;
+            width: 100%; /* Mobile UX Fix */
         }
 
         button:hover { background: #004080; transform: translateY(-1px); }
@@ -162,7 +164,6 @@
             letter-spacing: 1px;
         }
 
-        /* IMPROVEMENT: Gold Leaf Shimmer Effect */
         #congrats-banner {
             position: absolute;
             top: 12%;
@@ -179,11 +180,17 @@
             pointer-events: none;
             filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
         }
+
+        /* Responsive font adjustment */
+        @media (max-width: 600px) {
+            #congrats-banner { font-size: 2.5rem; }
+            .approved-stamp { font-size: 2rem; }
+        }
     </style>
 </head>
 <body>
 
-<div id="congrats-banner">Congratulations Graduate!</div>
+<div id="congrats-banner">Congratulations Sarah!</div>
 
 <div id="desk">
     <div class="visa-file" id="main-file">
@@ -192,7 +199,7 @@
         <p style="font-size: 0.7rem; margin: 0; color: #777; letter-spacing: 2px; font-weight: bold;">FORM I-GRAD | FINAL ADJUDICATION</p>
         <hr style="opacity: 0.3;">
         <h1>Case Status: Approved</h1>
-        <p>Petitioner: <strong>[NAME], ESQ.</strong></p>
+        <p>Petitioner: <strong>Sarah D. Hesse, ESQ.</strong></p>
         
         <div class="bible-principle">
             "The foreigner residing among you must be treated as your native-born. Love them as yourself, for you were foreigners in Egypt." <br>
@@ -266,18 +273,15 @@
             this.wobble = Math.random() * Math.PI * 2;
             this.petals = Math.floor(Math.random() * 5 + 6);
             this.parallaxFactor = Math.random() * 30;
-            // IMPROVEMENT: Blur factor based on distance for Depth of Field
-            this.blur = Math.random() > 0.7 ? 2 : 0;
         }
 
         draw() {
-            if (this.y > this.targetY) this.y -= 4;
-            else if (this.size < 35) this.size += 0.8;
+            if (this.y > this.targetY) this.y -= 8; 
+            else if (this.size < 35) this.size += 1.2;
 
             this.wobble += 0.03;
             const xOff = Math.sin(this.wobble) * 3 + (mouseX * this.parallaxFactor);
 
-            ctx.filter = `blur(${this.blur}px)`; // Dynamic Blur
             ctx.beginPath();
             ctx.strokeStyle = "#4a7c44";
             ctx.lineWidth = 3;
@@ -298,7 +302,6 @@
             ctx.fillStyle = "#FFD700";
             ctx.arc(this.x + xOff, this.y, this.size / 3, 0, Math.PI * 2);
             ctx.fill();
-            ctx.filter = 'none';
         }
     }
 
