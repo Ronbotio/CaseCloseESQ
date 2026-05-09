@@ -12,10 +12,18 @@
             --paper: #fdfaf0;
         }
 
-        body, html { margin: 0; padding: 0; overflow: hidden; background: var(--paper); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            background: var(--paper); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            height: 100%;
+            width: 100%;
+        }
         
         #desk {
-            position: absolute;
+            position: fixed; /* Using fixed to stay above background */
             inset: 0;
             display: flex;
             flex-direction: column;
@@ -24,6 +32,8 @@
             background: radial-gradient(circle at center, #fdfaf0 0%, #dcd3c1 100%);
             z-index: 20;
             transition: opacity 1s, transform 1s ease-in;
+            padding: 15px; /* Safety margin for small screens */
+            box-sizing: border-box;
         }
 
         .visa-file {
@@ -34,13 +44,20 @@
             border: 1px solid #ccc;
             box-shadow: 0 20px 50px rgba(0,0,0,0.15), 0 0 0 10px rgba(255,255,255,0.5);
             text-align: center;
-            width: 92%; /* Mobile Friendly Fix */
-            box-sizing: border-box; /* Ensures padding doesn't break width */
+            
+            /* SCALING LOGIC */
+            width: 100%;
             max-width: 500px;
+            max-height: 90vh; /* Never taller than 90% of screen height */
+            overflow-y: auto; /* Allows scrolling inside if screen is tiny */
+            
+            box-sizing: border-box;
             position: relative;
             z-index: 21;
+            border-radius: 8px;
         }
 
+        /* Fixed elements like the seal */
         .official-seal {
             position: absolute;
             bottom: 20px;
@@ -136,7 +153,7 @@
             position: relative;
             z-index: 30;
             transition: 0.2s;
-            width: 100%; /* Mobile UX Fix */
+            width: 100%;
         }
 
         button:hover { background: #004080; transform: translateY(-1px); }
@@ -166,7 +183,7 @@
 
         #congrats-banner {
             position: absolute;
-            top: 12%;
+            top: 10%;
             width: 100%;
             text-align: center;
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
@@ -181,12 +198,20 @@
             filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
         }
 
-        /* Mobile Specific Style Overrides */
+        /* MOBILE OPTIMIZATIONS */
         @media (max-width: 600px) {
-            #congrats-banner { font-size: 2.5rem; top: 15%; }
+            #congrats-banner { font-size: 2.2rem; top: 12%; }
             .approved-stamp { font-size: 1.8rem; }
-            .visa-file { padding: 25px 20px; }
-            h1 { font-size: 1.4rem; }
+            .visa-file { padding: 20px 15px; }
+            h1 { font-size: 1.3rem; }
+            .official-seal { width: 50px; height: 50px; bottom: 10px; right: 10px; }
+        }
+
+        /* Handle landscape mode on phones */
+        @media (max-height: 500px) {
+             #congrats-banner { font-size: 2rem; top: 5%; }
+             .visa-file { padding: 10px; }
+             .stamp-area { height: 60px; margin: 5px 0; }
         }
     </style>
 </head>
@@ -198,10 +223,14 @@
     <div class="visa-file" id="main-file">
         <div class="official-seal">JURIS<br>DOCTOR</div>
         <div class="bar-encouragement">Next Step: Bar Admission Pending</div>
+        
         <p style="font-size: 0.7rem; margin: 0; color: #777; letter-spacing: 2px; font-weight: bold;">FORM I-GRAD | FINAL ADJUDICATION</p>
-        <hr style="opacity: 0.3;">
-        <h1>Case Status: Approved</h1>
-        <p>Petitioner: <strong>Sarah D. Hesse, ESQ.</strong></p>
+        
+        <hr style="opacity: 0.3; margin: 5px 0;"> <h1 style="margin: 0;">Case Status: Approved</h1>
+        
+        <p style="margin: 0;">Petitioner: <strong>Sarah D. Hesse, JD</strong></p>
+        <p style="margin: 0;"><strong><i>Cum laude</i></strong></p>
+        <p style="margin: 0;"><strong><i>Pro Bono with Highest Distinction</i></strong></p>
         
         <div class="bible-principle">
             "The foreigner residing among you must be treated as your native-born. Love them as yourself, for you were foreigners in Egypt." <br>
